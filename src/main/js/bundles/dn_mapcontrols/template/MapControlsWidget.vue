@@ -19,6 +19,7 @@
     <div
         class="circlewrapper"
         @mouseleave="pickerCircleMouseUp"
+        @focusout="pickerCircleMouseUp"
         @mousemove="pickerCircleMouseMove"
         @mouseup="pickerCircleMouseUp"
     >
@@ -173,7 +174,7 @@
         watch: {
         },
         methods: {
-            resetNorthArrow(event){
+            resetNorthArrow(){
                 if(this.longpressed){
                     return;
                 }
@@ -226,7 +227,7 @@
                 }
                 this.rotation = this.rotate(event.x, event.y);
             },
-            pickerCircleMouseDown(event){
+            pickerCircleMouseDown(){
                 this.mousedown = true;
                 document.body.style.cursor = 'move';
                 // document.addEventListener('mousemove', mousemove);

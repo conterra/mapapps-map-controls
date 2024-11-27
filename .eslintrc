@@ -1,6 +1,9 @@
 {
-	"extends": "eslint-config-ct-prodeng",
-	"plugins": [
-		"vue"
-	]
+    "extends": "eslint-config-ct-prodeng",
+    "plugins": [
+        "vue"
+    ],
+    "rules": {
+        "vuejs-accessibility/click-events-have-key-events": "off"
+    }
 }

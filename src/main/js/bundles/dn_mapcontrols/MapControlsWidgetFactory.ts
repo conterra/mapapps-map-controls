@@ -14,7 +14,7 @@
 /// limitations under the License.
 ///
 
-import MapControlWidget from "./template/MapControlWidget.vue";
+import MapControlsWidget from "./template/MapControlsWidget.vue";
 import Vue from "apprt-vue/Vue";
 import VueDijit from "apprt-vue/VueDijit";
 import Binding from "apprt-binding/Binding";
@@ -44,7 +44,7 @@ export class MapControlsWidgetFactory {
     }
 
     private initComponent(): void {
-        const vm = this.vm = new Vue(MapControlWidget);
+        const vm = this.vm = new Vue(MapControlsWidget);
         vm.i18n = this._i18n!.get();
 
         const controller = this.mapMovementController =

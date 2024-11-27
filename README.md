@@ -1,6 +1,6 @@
 [![devnet-bundle-snapshot](https://github.com/conterra/mapapps-map-controls/actions/workflows/devnet-bundle-snapshot.yml/badge.svg)](https://github.com/conterra/mapapps-map-controls/actions/workflows/devnet-bundle-snapshot.yml)
 ![Static Badge](https://img.shields.io/badge/requires_map.apps-4.18.0-e5e5e5?labelColor=%233E464F&logoColor=%23e5e5e5)
-![Static Badge](https://img.shields.io/badge/tested_for_map.apps-4.18.0-%20?labelColor=%233E464F&color=%232FC050)
+![Static Badge](https://img.shields.io/badge/tested_for_map.apps-4.18.2-%20?labelColor=%233E464F&color=%232FC050)
 # Map Controls bundle
 The Map Controls Bundle is a widget for displaying a ui used to move around 2D and 3D maps.
 

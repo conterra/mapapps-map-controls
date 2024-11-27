@@ -1,0 +1,94 @@
+{
+    "name": "dn_mapcontrols",
+    "title": "${bundleName}",
+    "description": "${bundleDescription}",
+    "version": "1.0.0-SNAPSHOT",
+    "vendor": "con terra GmbH",
+    "main": "",
+    "dependencies": {
+        "apprt-core": "^4.15.0",
+        "apprt-vue": "^4.15.0",
+        "apprt-vuetify": "^4.15.0",
+        "apprt-binding": "^4.15.0",
+        "esri": "^4.26"
+    },
+    "layout-widgets": [
+        {
+            "widgetRole": "mapControlsWidget",
+            "window": {
+                "marginBox": {
+                    "r": 75,
+                    "b": 75,
+                    "w": 200,
+                    "h": 260
+                },
+                "dockTool": "mapControlsToggleTool",
+                "dockable": true,
+                "windowClass": "noTitleBarAndWindowTools"
+            }
+        }
+    ],
+    "cssThemesExtension": [
+        {
+            "name": "*",
+            "files": [
+                "./styles/styles.css"
+            ]
+        }
+    ],
+    "components": [
+        {
+            "name": "Config",
+            "provides": "dn_mapcontrols.MapControlsModel"
+        },
+        {
+            "name": "MapControlsWidgetFactory",
+            "provides": [
+                "dijit.Widget",
+                "dn_mapcontrols.Widget"
+            ],
+            "instanceFactory": true,
+            "properties": {
+                "widgetRole": "mapControlsWidget"
+            },
+            "references": [
+                {
+                    "name": "_mapControlsModel",
+                    "providing": "dn_mapcontrols.MapControlsModel"
+                },
+                {
+                    "name": "_mapWidgetModel",
+                    "providing": "map-widget.MapWidgetModel"
+                }
+            ]
+        },
+        {
+            "name": "MapControlsToggleTool",
+            "impl": "ct/tools/Tool",
+            "provides": [
+                "ct.tools.Tool"
+            ],
+            "propertiesConstructor": true,
+            "properties": {
+                "id": "mapControlsToggleTool",
+                "title": "${ui.tool.title}",
+                "tooltip": "${ui.tool.tooltip}",
+                "iconClass": "esri-icon-locate-circled",
+                "toolRole": "toolset",
+                "togglable": true,
+                "rules": {
+                    "noGroup": true
+                }
+                // ,
+                // "activateHandler": "activateTool",
+                // "deactivateHandler": "deactivateTool",
+                // "references": [
+                //     {
+                //         "name": "handlerScope",
+                //         "providing": "dn_mapcontrols.Widget"
+                //     }
+                // ]
+            }
+        }
+    ]
+}

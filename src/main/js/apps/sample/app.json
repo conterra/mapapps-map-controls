@@ -16,6 +16,7 @@
             "map-init",
             "map-preload-2D",
             "toolset",
+            "toolrules",
             "banner",
             "mapnavigation",
             "popups-default",
@@ -25,7 +26,8 @@
             "search-ui",
             "locator-store",
             "toc",
-            "sample_helloworld"
+            "dn_mapcontrols",
+            "viewmodeswitcher"
         ]
     },
     "bundles": {
@@ -56,13 +58,50 @@
                     }
                 ],
                 "map": {
-                    "layers": []
+                    "layers": [
+                        {
+                            "id": "koeln",
+                            "url": "https://services.conterra.de/arcgis/rest/services/common/koeln/MapServer",
+                            "type": "AGS_DYNAMIC",
+                            "title": "${map.cologne}",
+                            "initiallyExpandedInToc": true,
+                            "sublayers": [
+                                {
+                                    "id": 0,
+                                    "initiallyExpandedInToc": true,
+                                    "sublayers": [
+                                        {
+                                            "id": 1
+                                        },
+                                        {
+                                            "id": 2,
+                                            "visible": false
+                                        },
+                                        {
+                                            "id": 3,
+                                            "visible": false
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": 4,
+                                    "visible": false,
+                                    "initiallyExpandedInToc": true
+                                },
+                                {
+                                    "id": 8,
+                                    "visible": false,
+                                    "initiallyExpandedInToc": true
+                                }
+                            ]
+                        }
+                    ]
                 },
                 "view": {
                     "viewmode": "2D",
                     "center": {
-                        "x": 774853,
-                        "y": 6610677,
+                        "x": 473033.305195,
+                        "y": 5682079.732658,
                         "spatialReference": 3857
                     },
                     "scale": 140000
@@ -79,7 +118,7 @@
         },
         "toc": {
             "Config": {
-                "showBasemaps" : true,
+                "showBasemaps": true,
                 "showLayerLegend": true
             }
         },
@@ -89,6 +128,8 @@
                     {
                         "id": "mapview_tools",
                         "tools": [
+                            "mapControlsToggleTool",
+                            "viewmodeSwitcherTool",
                             "locateMeTool",
                             "zoomInTool",
                             "zoomOutTool",
@@ -133,6 +174,13 @@
                             "before"
                         ]
                     }
+                ]
+            }
+        },
+        "toolrules": {
+            "ToolActiveStateManager": {
+                "activateOnStartToolIds": [
+                    "mapControlsToggleTool"
                 ]
             }
         }

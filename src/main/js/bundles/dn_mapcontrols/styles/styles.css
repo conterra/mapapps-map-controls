@@ -1,0 +1,165 @@
+/**
+ * Copyright (C) 2023 con terra GmbH (info@conterra.de)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+.mapControlsWidget .rotationarrow {
+    position: absolute;
+    border: solid #000;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px !important;
+    margin: 0 3px 0 auto;
+    top: 25%;
+    transform: rotate(-45deg) scale(5);
+}
+
+.mapControlsWidget .esrinortharrow{
+    position: absolute;
+    padding: 3px !important;
+    margin: 0 3px 0 auto;
+    right: -15px;
+    top: -10%;
+    transform: rotate(90deg) scale(1);
+    background-color: #fff;
+    border-radius: 50px;
+    z-index: 1;
+    border: 1px solid #000;
+}
+
+.mapControlsWidget .controlwrapper{
+    z-index: 0;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 24%;
+    top: 23%;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 0 0;
+}
+.mapControlsWidget .tiltslider{
+    width: 155px;
+    height: 42px;
+    border-radius: 4px;
+    position: relative;
+    top: 20px;
+    left: 16px;
+}
+.ctTpl_seasons .vue-base.mapControlsWidget{
+    background-color: transparent;
+}
+
+
+.mapControlsWidget .circle {
+    position: relative;
+    width: 155px;
+    height: 155px;
+    border-radius: 50%;
+    background: transparent;
+    opacity: 1;
+    border-color: #000;
+    border-width: 2px;
+    border-style: solid;
+    left: 15px;
+    top:15px
+
+}
+
+.mapControlsWidget .circlein {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.mapControlsWidget .picker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height:25px;
+    margin-top: -15px !important;
+    width: 50%;
+    background-color: transparent;
+
+
+    -webkit-transform-origin: center left;
+    -moz-transform-origin: center left;
+    -ms-transform-origin: center left;
+    -o-transform-origin: center left;
+    transform-origin: center left;
+}
+
+.mapControlsWidget .pickercircle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #f4f8f9;
+    margin: 0 3px 0 auto !important;
+    cursor: move;
+}
+.mapControlsWidget .circlewrapper{
+    background-color: transparent;
+    width: 175px;
+    height: 175px;
+    opacity: 0.5;
+}
+.mapControlsWidget .circlewrapper:hover{
+    background-color: transparent;
+    opacity: 1;
+}
+
+.mapControlsWidget .arrow {
+    position: absolute;
+    border: solid #000;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px !important;
+    scale: 2;
+}
+
+.mapControlsWidget .right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.mapControlsWidget .left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.mapControlsWidget .up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.mapControlsWidget .down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+/*.mapControlsWidget .v-icon.v-icon--link.icon.icon-video.theme--light{*/
+/*    transform: rotate(90deg);*/
+/*}*/
+.mapControlsWidget .camera{
+    background-image: url(../images/camera.svg);
+    background-size: 90%;
+    grid-area: 2 / 2 / 3 / 3;
+    margin-top: 3px !important;
+    margin-left: 3px !important;
+    cursor: pointer;
+}

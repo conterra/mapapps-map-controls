@@ -12,7 +12,6 @@
             "templatelayout",
             "template-seasons",
             "theme-autumn",
-            "theme-everlasting",
             "map-init",
             "map-preload-2D",
             "toolset",
@@ -40,80 +39,52 @@
                 "link": "http://developernetwork.conterra.de"
             }
         },
-        "map-init": {
+       "map-init": {
             "Config": {
                 "basemaps": [
                     {
-                        "id": "esri_street",
-                        "title": "Straßenkarte (grau)",
-                        "thumbnailUrl": "resource('${app}:/images/streets.png')",
+                        "id": "topo",
+                        "title": "Topo",
                         "selected": true,
-                        "basemap": "gray-vector"
-                    },
-                    {
-                        "id": "esri_hybrid",
-                        "title": "Luftbild (hybrid)",
-                        "thumbnailUrl": "resource('${app}:/images/hybrid.png')",
-                        "basemap": "hybrid"
+                        "basemap": "topo-vector"
                     }
                 ],
                 "map": {
                     "layers": [
                         {
-                            "id": "koeln",
-                            "url": "https://services.conterra.de/arcgis/rest/services/common/koeln/MapServer",
-                            "type": "AGS_DYNAMIC",
-                            "title": "${map.cologne}",
-                            "initiallyExpandedInToc": true,
-                            "sublayers": [
-                                {
-                                    "id": 0,
-                                    "initiallyExpandedInToc": true,
-                                    "sublayers": [
-                                        {
-                                            "id": 1
-                                        },
-                                        {
-                                            "id": 2,
-                                            "visible": false
-                                        },
-                                        {
-                                            "id": 3,
-                                            "visible": false
-                                        }
-                                    ]
-                                },
-                                {
-                                    "id": 4,
-                                    "visible": false,
-                                    "initiallyExpandedInToc": true
-                                },
-                                {
-                                    "id": 8,
-                                    "visible": false,
-                                    "initiallyExpandedInToc": true
-                                }
-                            ]
+                            "id": "buildings",
+                            "title": "${layers.buildings}",
+                            "type": "AGS_SCENE",
+                            "legendEnabled": false,
+                            "url": "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/STM____FR_Lyon__Textured_buildings/SceneServer"
+                        }
+                    ],
+                    "ground": [
+                        {
+                            "url": "https://tiles.arcgis.com/tiles/cFEFS0EWrhfDeVw9/arcgis/rest/services/ELEV____FR_Lyon__Elevation/ImageServer",
+                            "type": "ELEVATION"
+                        },
+                        {
+                            "url": "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer",
+                            "type": "ELEVATION"
                         }
                     ]
                 },
                 "view": {
-                    "viewmode": "2D",
-                    "center": {
-                        "x": 473033.305195,
-                        "y": 5682079.732658,
-                        "spatialReference": 3857
-                    },
-                    "scale": 140000
+                    "viewmode": "3D",
+                    "camera": {
+                        "heading": 136.8701794643217,
+                        "tilt": 79.79644625047392,
+                        "position": {
+                            "x": 536508.4282291891,
+                            "y": 5742784.271064765,
+                            "z": 365.8990031592548,
+                            "spatialReference": {
+                                "wkid": 3857
+                            }
+                        }
+                    }
                 }
-            }
-        },
-        "themes": {
-            "ThemeModel": {
-                "_selectedTheme": "autumn"
-            },
-            "ThemeSelector": {
-                "componentEnabled": true
             }
         },
         "toc": {
@@ -130,12 +101,9 @@
                         "tools": [
                             "mapControlsToggleTool",
                             "viewmodeSwitcherTool",
-                            "locateMeTool",
                             "zoomInTool",
                             "zoomOutTool",
-                            "compassTool",
-                            "restoreInitialViewTool",
-                            "viewmodeSwitcherTool"
+                            "restoreInitialViewTool"
                         ],
                         "registerWidget": {
                             "widgetRole": "mapview_tools"
@@ -144,33 +112,6 @@
                         "windowType": "container",
                         "cssClass": "muted",
                         "tooltipPositions": [
-                            "before",
-                            "above",
-                            "below",
-                            "after"
-                        ]
-                    },
-                    {
-                        "id": "drawer_left",
-                        "title": "Werkzeuge",
-                        "cssClass": "ct-main-app-menu",
-                        "tools": [
-                            "tocToggleTool",
-                            "printingToggleTool",
-                            "sharelinkTool",
-                            "helloTool",
-                            "IMPRINT_Imprint_CustomInfoTool",
-                            "IMPRINT_Imprint_CustomInfoTool_mobile"
-                        ],
-                        "registerWidget": {
-                            "widgetRole": "drawer_button"
-                        },
-                        "container": "ignore",
-                        "windowType": "drawer_left",
-                        "tooltipPositions": [
-                            "after",
-                            "above",
-                            "below",
                             "before"
                         ]
                     }

@@ -17,7 +17,7 @@
 -->
 <template>
     <div
-        class="circlewrapper"
+        class="ct-mapcontrols__wrapper"
         @mouseleave="pickerCircleMouseUp"
         @focusout="pickerCircleMouseUp"
         @mousemove="pickerCircleMouseMove"
@@ -48,71 +48,67 @@
                 </v-icon>
             </div>
             <div class="controlwrapper">
-                <!--                <i-->
-                <!--                    class="arrow right"-->
-                <!--                    style="grid-area: 2 / 3 / 3 / 4; margin: 12px"-->
-                <!--                    @click="rightArrow"-->
-                <!--                />-->
-                <!--                <i-->
-                <!--                    class="arrow up"-->
-                <!--                    style=" grid-area: 1 / 2 / 2 / 3; margin: 12px"-->
-                <!--                    @click="upArrow"-->
-                <!--                />-->
-                <!--                <i-->
-                <!--                    class="arrow left"-->
-                <!--                    style=" grid-area: 2 / 1 / 3 / 2; margin: 12px"-->
-                <!--                    @click="leftArrow"-->
-                <!--                />-->
-                <!--                <i-->
-                <!--                    class="arrow down"-->
-                <!--                    style=" grid-area: 3 / 2 / 4 / 3; margin: 12px"-->
-                <!--                    @click="downArrow"-->
-                <!--                />-->
-                <v-icon
-                    style="grid-area: 2 / 3 / 3 / 4; margin-top: 3px"
-                    color="#45474D"
-                    @click="rightArrow"
-                >
-                    icon-arrow-bold-right
-                </v-icon>
-                <v-icon
-                    style=" grid-area: 1 / 2 / 2 / 3; "
-                    color="#45474D"
+                <v-btn
+                    icon
+                    style=" grid-area: 1 / 2 / 2 / 3"
                     @click="upArrow"
                 >
-                    icon-arrow-bold-up
-                </v-icon>
-                <v-icon
-                    style=" grid-area: 2 / 1 / 3 / 2; margin-top: 3px"
-                    color="#45474D"
-                    @click="leftArrow"
+                    <v-icon color="#45474D">
+                        icon-arrow-bold-up
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    icon
+                    style="grid-area: 2 / 3 / 3 / 4"
+                    @click="rightArrow"
                 >
-                    icon-arrow-bold-left
-                </v-icon>
-                <v-icon
+                    <v-icon color="#45474D">
+                        icon-arrow-bold-right
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    icon
                     style=" grid-area: 3 / 2 / 4 / 3"
-                    color="#45474D"
                     @click="downArrow"
                 >
-                    icon-arrow-bold-down
-                </v-icon>
-                <!--                <v-icon-->
-                <!--                    style=" grid-area: 2 / 2 / 3 / 3;"-->
-                <!--                    color="#45474D"-->
-                <!--                    @click="autoRotate"-->
-                <!--                >-->
-                <!--                    icon-video-->
-                <!--                </v-icon>-->
-                <div
+                    <v-icon
+                        color="#45474D"
+                    >
+                        icon-arrow-bold-down
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    icon
+                    style=" grid-area: 2 / 1 / 3 / 2"
+                    @click="leftArrow"
+                >
+                    <v-icon
+                        color="#45474D"
+                    >
+                        icon-arrow-bold-left
+                    </v-icon>
+                </v-btn>
+                <v-btn
                     v-if="viewmode === '3D'"
-                    class="camera"
+                    icon
+                    large
+                    :ripple="false"
+                    style="grid-area: 2 / 2 / 3 / 3;"
+                    :class="!arot ? 'autorotate--start' : 'autorotate--stop'"
                     @click="autoRotate"
-                />
+                >
+                    <v-icon
+                        color="#45474D"
+                        large
+                    >
+                        icon-video
+                    </v-icon>
+                </v-btn>
             </div>
         </div>
         <div
             v-if="viewmode === '3D'"
-            class="tiltslider"
+            class="ct-mapcontrols__tiltslider-wrapper"
         >
             <v-slider
                 v-model="tilt"
@@ -120,10 +116,10 @@
                 :min="0"
                 :max="90"
                 :step="15"
+                hide-details
                 ticks="always"
-                style="margin: 10px; position: absolute; top: -7px"
-                height="42px"
                 color="#45474D"
+                class="mt-0"
             >
                 <template #append>
                     <v-layout style="margin-top: 5px !important">
@@ -249,9 +245,10 @@
                 var deltaY = y - c.y;
 
 
-                // The atan2 method returns a numeric value between -pi and pi representing the angle theta of an (x,y) point.
-                // This is the counterclockwise angle, measured in radians, between the positive X axis, and the point (x,y).
-                // Note that the arguments to this function pass the y-coordinate first and the x-coordinate second.
+                // The atan2 method returns a numeric value between -pi and pi representing the angle theta of an (x,y)
+                // point. This is the counterclockwise angle, measured in radians, between the positive X axis,
+                // and the point (x,y).Note that the arguments to this function pass the y-coordinate first and the
+                // x-coordinate second.
                 // atan2 is passed separate x and y arguments, and atan is passed the ratio of those two arguments.
                 // * from Mozilla's MDN
 

@@ -18,13 +18,13 @@
             "window": {
                 "marginBox": {
                     "r": 75,
-                    "b": 75,
+                    "b": 60,
                     "w": 200,
                     "h": 260
                 },
                 "dockTool": "mapControlsToggleTool",
                 "dockable": true,
-                "windowClass": "noTitleBarAndWindowTools"
+                "windowClass": "noTitleBarAndWindowTools pseudoWindow"
             }
         }
     ],

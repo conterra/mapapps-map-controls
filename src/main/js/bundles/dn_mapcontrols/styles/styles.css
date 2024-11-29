@@ -14,9 +14,27 @@
  * limitations under the License.
  */
 
-
 .ctAppRoot .mapControlsWidget .vue-base{
     padding: 12px;
+}
+
+.ctAppRoot .pseudoWindow.mapControlsWidget {
+    box-shadow: none;
+}
+
+.ctAppRoot .pseudoWindow.mapControlsWidget .vue-base {
+    background: transparent none;
+    box-shadow: none;
+}
+
+.mapControlsWidget .ct-mapcontrols__controlwrapper,
+.mapControlsWidget .ct-mapcontrols__tiltslider-wrapper {
+    background-color: #fff;
+}
+
+.mapControlsWidget .ct-mapcontrols__tiltslider-wrapper {
+    padding: 5px 12px;
+    border-radius: 8px;
 }
 
 .mapControlsWidget .rotationarrow {
@@ -43,20 +61,20 @@
     border: 1px solid #000;
 }
 
-.mapControlsWidget .controlwrapper{
+.mapControlsWidget .ct-mapcontrols__controlwrapper{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: 80%;
+    width: 70%;
     height: auto;
     aspect-ratio: 1;
+    border-radius: 15px;
+    .v-btn {
+        margin: auto;
+    }
 }
 
-.mapControlsWidget .controlwrapper .v-btn {
-    margin: auto;
-}
-
-.mapControlsWidget .circle {
+.mapControlsWidget .ct-mapcontrols__circle {
     align-self: center;
     position: relative;
     width: 100%;
@@ -66,6 +84,7 @@
     background: transparent;
     opacity: 1;
     border-color: #000;
+    box-shadow: 1px 1px #fff, -1px -1px #fff, -1px 1px #fff, 1px -1px #fff;
     border-width: 2px;
     border-style: solid;
     display: flex;
@@ -98,7 +117,7 @@
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #f4f8f9;
+    background: #fff;
     margin: 0 3px 0 auto !important;
     cursor: move;
 }
@@ -107,7 +126,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    gap: 16px
+    gap: 16px;
+    padding: 2px;
 }
 .mapControlsWidget .ct-mapcontrols__wrapper:hover{
     background-color: transparent;
@@ -119,15 +139,14 @@
     content: "";
     position: absolute;
 
-
-    }
+}
 .mapControlsWidget .autorotate--start .v-btn__content:after {
     width: 0;
     height: 0;
     border-style: solid;
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
-    border-left: 10px solid #e1e1e1;
+    border-left: 10px solid #fff;
     border-right: 0;
     margin-left: -8px;
 }
@@ -138,7 +157,7 @@
     margin-left: -11px;
     margin-top: -1px;
     border-radius: 1px;
-    background-color: #e1e1e1;
+    background-color: #fff;
 }
 
 .mapControlsWidget .ct-mapcontrols__tiltslider-wrapper .v-slider__thumb {

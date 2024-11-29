@@ -26,7 +26,7 @@
         <div
             id="circle"
             ref="circle"
-            class="circle"
+            class="ct-mapcontrols__circle"
         >
             <div
                 id="picker"
@@ -47,7 +47,7 @@
                     esri-icon-compass
                 </v-icon>
             </div>
-            <div class="controlwrapper">
+            <div class="ct-mapcontrols__controlwrapper">
                 <v-btn
                     icon
                     style=" grid-area: 1 / 2 / 2 / 3"
@@ -125,6 +125,7 @@
                     <v-layout style="margin-top: 5px !important">
                         <v-icon
                             color="#45474D"
+                            small
                             @click="tilt=((tilt+15))"
                         >
                             icon-video
@@ -136,6 +137,7 @@
                         <v-icon
                             color="#45474D"
                             style="transform: rotate(90deg);"
+                            small
                             @click="tilt=((tilt-15))"
                         >
                             icon-video

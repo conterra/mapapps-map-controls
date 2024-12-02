@@ -34,12 +34,8 @@
                 class="picker"
                 :style="rotationStyle"
             >
-                <!--                <i-->
-                <!--                    class="rotationarrow"-->
-                <!--                    @mousedown="circleMouseDown"-->
-                <!--                />-->
                 <v-icon
-                    class="esrinortharrow"
+                    class="ct-mapcontrols__northarrow"
                     color="#45474D"
                     @mousedown="circleMouseDown"
                     @click="resetNorthArrow"

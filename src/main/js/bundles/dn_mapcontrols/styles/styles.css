@@ -37,18 +37,7 @@
     border-radius: 8px;
 }
 
-.mapControlsWidget .rotationarrow {
-    position: absolute;
-    border: solid #000;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px !important;
-    margin: 0 3px 0 auto;
-    top: 25%;
-    transform: rotate(-45deg) scale(5);
-}
-
-.mapControlsWidget .esrinortharrow{
+.mapControlsWidget .ct-mapcontrols__northarrow{
     position: absolute;
     padding: 3px !important;
     margin: 0 3px 0 auto;

@@ -2,7 +2,7 @@
     "name": "dn_mapcontrols",
     "title": "${bundleName}",
     "description": "${bundleDescription}",
-    "version": "1.0.1-SNAPSHOT",
+    "version": "1.1.0",
     "vendor": "con terra GmbH",
     "main": "",
     "dependencies": {

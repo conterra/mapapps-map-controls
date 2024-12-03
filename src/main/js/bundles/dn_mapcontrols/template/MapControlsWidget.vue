@@ -17,7 +17,7 @@
 -->
 <template>
     <div
-        class="circlewrapper"
+        class="ct-mapcontrols__wrapper"
         @mouseleave="pickerCircleMouseUp"
         @focusout="pickerCircleMouseUp"
         @mousemove="pickerCircleMouseMove"
@@ -26,20 +26,19 @@
         <div
             id="circle"
             ref="circle"
-            class="circle"
+            class="ct-mapcontrols__circle"
         >
             <div
                 id="picker"
                 ref="picker"
                 class="picker"
+                :aria-label="i18n.ui.northArrow"
+                role="button"
+                tabindex="0"
                 :style="rotationStyle"
             >
-                <!--                <i-->
-                <!--                    class="rotationarrow"-->
-                <!--                    @mousedown="circleMouseDown"-->
-                <!--                />-->
                 <v-icon
-                    class="esrinortharrow"
+                    class="ct-mapcontrols__northarrow"
                     color="#45474D"
                     @mousedown="circleMouseDown"
                     @click="resetNorthArrow"
@@ -47,72 +46,73 @@
                     esri-icon-compass
                 </v-icon>
             </div>
-            <div class="controlwrapper">
-                <!--                <i-->
-                <!--                    class="arrow right"-->
-                <!--                    style="grid-area: 2 / 3 / 3 / 4; margin: 12px"-->
-                <!--                    @click="rightArrow"-->
-                <!--                />-->
-                <!--                <i-->
-                <!--                    class="arrow up"-->
-                <!--                    style=" grid-area: 1 / 2 / 2 / 3; margin: 12px"-->
-                <!--                    @click="upArrow"-->
-                <!--                />-->
-                <!--                <i-->
-                <!--                    class="arrow left"-->
-                <!--                    style=" grid-area: 2 / 1 / 3 / 2; margin: 12px"-->
-                <!--                    @click="leftArrow"-->
-                <!--                />-->
-                <!--                <i-->
-                <!--                    class="arrow down"-->
-                <!--                    style=" grid-area: 3 / 2 / 4 / 3; margin: 12px"-->
-                <!--                    @click="downArrow"-->
-                <!--                />-->
-                <v-icon
-                    style="grid-area: 2 / 3 / 3 / 4; margin-top: 3px"
-                    color="#45474D"
-                    @click="rightArrow"
-                >
-                    icon-arrow-bold-right
-                </v-icon>
-                <v-icon
-                    style=" grid-area: 1 / 2 / 2 / 3; "
-                    color="#45474D"
+            <div class="ct-mapcontrols__controlwrapper">
+                <v-btn
+                    icon
+                    style=" grid-area: 1 / 2 / 2 / 3"
+                    :aria-label="i18n.ui.moveUp"
                     @click="upArrow"
                 >
-                    icon-arrow-bold-up
-                </v-icon>
-                <v-icon
-                    style=" grid-area: 2 / 1 / 3 / 2; margin-top: 3px"
-                    color="#45474D"
-                    @click="leftArrow"
+                    <v-icon color="#45474D">
+                        icon-arrow-bold-up
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    icon
+                    style="grid-area: 2 / 3 / 3 / 4"
+                    :aria-label="i18n.ui.moveRight"
+                    @click="rightArrow"
                 >
-                    icon-arrow-bold-left
-                </v-icon>
-                <v-icon
+                    <v-icon color="#45474D">
+                        icon-arrow-bold-right
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    icon
                     style=" grid-area: 3 / 2 / 4 / 3"
-                    color="#45474D"
+                    :aria-label="i18n.ui.moveDown"
                     @click="downArrow"
                 >
-                    icon-arrow-bold-down
-                </v-icon>
-                <!--                <v-icon-->
-                <!--                    style=" grid-area: 2 / 2 / 3 / 3;"-->
-                <!--                    color="#45474D"-->
-                <!--                    @click="autoRotate"-->
-                <!--                >-->
-                <!--                    icon-video-->
-                <!--                </v-icon>-->
-                <div
+                    <v-icon
+                        color="#45474D"
+                    >
+                        icon-arrow-bold-down
+                    </v-icon>
+                </v-btn>
+                <v-btn
+                    icon
+                    style=" grid-area: 2 / 1 / 3 / 2"
+                    :aria-label="i18n.ui.moveLeft"
+                    @click="leftArrow"
+                >
+                    <v-icon
+                        color="#45474D"
+                    >
+                        icon-arrow-bold-left
+                    </v-icon>
+                </v-btn>
+                <v-btn
                     v-if="viewmode === '3D'"
-                    class="camera"
+                    icon
+                    large
+                    :ripple="false"
+                    style="grid-area: 2 / 2 / 3 / 3;"
+                    :class="!arot ? 'autorotate--start' : 'autorotate--stop'"
+                    :aria-label="arot ? i18n.ui.stopAutorotation : i18n.ui.startAutorotation"
                     @click="autoRotate"
-                />
+                >
+                    <v-icon
+                        color="#45474D"
+                        large
+                    >
+                        icon-video
+                    </v-icon>
+                </v-btn>
             </div>
         </div>
         <div
             v-if="viewmode === '3D'"
-            class="tiltslider"
+            class="ct-mapcontrols__tiltslider-wrapper"
         >
             <v-slider
                 v-model="tilt"
@@ -120,15 +120,19 @@
                 :min="0"
                 :max="90"
                 :step="15"
+                hide-details
                 ticks="always"
-                style="margin: 10px; position: absolute; top: -7px"
-                height="42px"
                 color="#45474D"
+                class="mt-0"
+                :aria-label="i18n.ui.cameraAzimut"
             >
                 <template #append>
                     <v-layout style="margin-top: 5px !important">
                         <v-icon
                             color="#45474D"
+                            small
+                            role="button"
+                            :aria-label="i18n.ui.decreaseCameraAngle"
                             @click="tilt=((tilt+15))"
                         >
                             icon-video
@@ -140,6 +144,9 @@
                         <v-icon
                             color="#45474D"
                             style="transform: rotate(90deg);"
+                            small
+                            role="button"
+                            :aria-label="i18n.ui.increaseCameraAngle"
                             @click="tilt=((tilt-15))"
                         >
                             icon-video
@@ -156,6 +163,27 @@
 
     export default {
         mixins: [Bindable],
+        props:{
+            i18n: {
+                type: Object,
+                default: function () {
+                    return {
+                        ui: {
+                            northArrow: "Direction of north",
+                            moveUp: "Move view forward",
+                            moveDown: "Move view backward",
+                            moveLeft: "Move view left",
+                            moveRight: "Move view right",
+                            startAutorotation: "Start autorotation around midpoint",
+                            stopAutorotation: "Stop autorotation",
+                            increaseCameraAngle: "Increase camera angle",
+                            decreaseCameraAngle: "Decrease camera angle",
+                            cameraAzimut: "Camera azimut"
+                        }
+                    };
+                }
+            }
+        },
         data: function () {
             return {
                 rotation: null,
@@ -207,6 +235,9 @@
 
 
             circleMouseDown(event){
+                /* TODO: implement alternate version for Keyboard users
+                 * maybe left/right arrows while focus on north arrow
+                */
                 this.pickerCircleMouseDown(event);
                 this.longpressed = false;
                 this.pressTimer = setTimeout(() => {
@@ -249,9 +280,10 @@
                 var deltaY = y - c.y;
 
 
-                // The atan2 method returns a numeric value between -pi and pi representing the angle theta of an (x,y) point.
-                // This is the counterclockwise angle, measured in radians, between the positive X axis, and the point (x,y).
-                // Note that the arguments to this function pass the y-coordinate first and the x-coordinate second.
+                // The atan2 method returns a numeric value between -pi and pi representing the angle theta of an (x,y)
+                // point. This is the counterclockwise angle, measured in radians, between the positive X axis,
+                // and the point (x,y).Note that the arguments to this function pass the y-coordinate first and the
+                // x-coordinate second.
                 // atan2 is passed separate x and y arguments, and atan is passed the ratio of those two arguments.
                 // * from Mozilla's MDN
 

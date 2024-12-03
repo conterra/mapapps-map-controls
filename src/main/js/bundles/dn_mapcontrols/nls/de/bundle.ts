@@ -23,6 +23,16 @@ export default {
         tool: {
             title: "Kartensteuerung",
             tooltip: "Kartensteuerung"
-        }
+        },
+        northArrow: "Nordrichtung",
+        moveUp: "Ansicht nach vorne verschieben",
+        moveDown: "Ansicht nach hinten verschieben",
+        moveLeft: "Ansicht nach links verschieben",
+        moveRight: "Ansicht nach rechts verschieben",
+        startAutorotation: "Autorotation der Ansicht starten",
+        stopAutorotation: "Autorotation der Ansicht stoppen",
+        increaseCameraAngle: "Kamera Azimuth erhöhen",
+        decreaseCameraAngle: "Kamera Azimut verringern",
+        cameraAzimut: "Kamera Azimut"
     }
 } satisfies Messages;

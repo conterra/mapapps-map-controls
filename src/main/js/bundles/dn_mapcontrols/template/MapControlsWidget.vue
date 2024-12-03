@@ -32,6 +32,9 @@
                 id="picker"
                 ref="picker"
                 class="picker"
+                :aria-label="i18n.ui.northArrow"
+                role="button"
+                tabindex="0"
                 :style="rotationStyle"
             >
                 <v-icon
@@ -47,6 +50,7 @@
                 <v-btn
                     icon
                     style=" grid-area: 1 / 2 / 2 / 3"
+                    :aria-label="i18n.ui.moveUp"
                     @click="upArrow"
                 >
                     <v-icon color="#45474D">
@@ -56,6 +60,7 @@
                 <v-btn
                     icon
                     style="grid-area: 2 / 3 / 3 / 4"
+                    :aria-label="i18n.ui.moveRight"
                     @click="rightArrow"
                 >
                     <v-icon color="#45474D">
@@ -65,6 +70,7 @@
                 <v-btn
                     icon
                     style=" grid-area: 3 / 2 / 4 / 3"
+                    :aria-label="i18n.ui.moveDown"
                     @click="downArrow"
                 >
                     <v-icon
@@ -76,6 +82,7 @@
                 <v-btn
                     icon
                     style=" grid-area: 2 / 1 / 3 / 2"
+                    :aria-label="i18n.ui.moveLeft"
                     @click="leftArrow"
                 >
                     <v-icon
@@ -91,6 +98,7 @@
                     :ripple="false"
                     style="grid-area: 2 / 2 / 3 / 3;"
                     :class="!arot ? 'autorotate--start' : 'autorotate--stop'"
+                    :aria-label="arot ? i18n.ui.stopAutorotation : i18n.ui.startAutorotation"
                     @click="autoRotate"
                 >
                     <v-icon
@@ -116,12 +124,15 @@
                 ticks="always"
                 color="#45474D"
                 class="mt-0"
+                :aria-label="i18n.ui.cameraAzimut"
             >
                 <template #append>
                     <v-layout style="margin-top: 5px !important">
                         <v-icon
                             color="#45474D"
                             small
+                            role="button"
+                            :aria-label="i18n.ui.decreaseCameraAngle"
                             @click="tilt=((tilt+15))"
                         >
                             icon-video
@@ -134,6 +145,8 @@
                             color="#45474D"
                             style="transform: rotate(90deg);"
                             small
+                            role="button"
+                            :aria-label="i18n.ui.increaseCameraAngle"
                             @click="tilt=((tilt-15))"
                         >
                             icon-video
@@ -150,6 +163,27 @@
 
     export default {
         mixins: [Bindable],
+        props:{
+            i18n: {
+                type: Object,
+                default: function () {
+                    return {
+                        ui: {
+                            northArrow: "Direction of north",
+                            moveUp: "Move view forward",
+                            moveDown: "Move view backward",
+                            moveLeft: "Move view left",
+                            moveRight: "Move view right",
+                            startAutorotation: "Start autorotation around midpoint",
+                            stopAutorotation: "Stop autorotation",
+                            increaseCameraAngle: "Increase camera angle",
+                            decreaseCameraAngle: "Decrease camera angle",
+                            cameraAzimut: "Camera azimut"
+                        }
+                    };
+                }
+            }
+        },
         data: function () {
             return {
                 rotation: null,
@@ -201,6 +235,9 @@
 
 
             circleMouseDown(event){
+                /* TODO: implement alternate version for Keyboard users
+                 * maybe left/right arrows while focus on north arrow
+                */
                 this.pickerCircleMouseDown(event);
                 this.longpressed = false;
                 this.pressTimer = setTimeout(() => {

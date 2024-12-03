@@ -24,15 +24,15 @@ export default {
             title: "Kartensteuerung",
             tooltip: "Kartensteuerung"
         },
-        northArrow: "Direction of north",
-        moveUp: "Move view forward",
-        moveDown: "Move view backward",
-        moveLeft: "Move view left",
-        moveRight: "Move view right",
-        startAutorotation: "Start autorotation around midpoint",
-        stopAutorotation: "Stop autorotation",
-        increaseCameraAngle: "Increase camera angle",
-        decreaseCameraAngle: "Decrease camera angle",
-        cameraAzimut: "Camera azimut"
+        northArrow: "Nordrichtung",
+        moveUp: "Ansicht nach vorne verschieben",
+        moveDown: "Ansicht nach hinten verschieben",
+        moveLeft: "Ansicht nach links verschieben",
+        moveRight: "Ansicht nach rechts verschieben",
+        startAutorotation: "Autorotation der Ansicht starten",
+        stopAutorotation: "Autorotation der Ansicht stoppen",
+        increaseCameraAngle: "Kamera Azimuth erhöhen",
+        decreaseCameraAngle: "Kamera Azimut verringern",
+        cameraAzimut: "Kamera Azimut"
     }
 } satisfies Messages;

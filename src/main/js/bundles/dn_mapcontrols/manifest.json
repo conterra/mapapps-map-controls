@@ -22,6 +22,12 @@
                     "w": 200,
                     "h": 260
                 },
+                "fixEdgesInViewPort": {
+                    "l": false,
+                    "r": true,
+                    "t": true,
+                    "b": true
+                },
                 "dockTool": "mapControlsToggleTool",
                 "dockable": true,
                 "windowClass": "noTitleBarAndWindowTools pseudoWindow"

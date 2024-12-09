@@ -14,100 +14,101 @@
  * limitations under the License.
  */
 
-.ctAppRoot .mapControlsWidget .vue-base{
-    padding: 12px;
-}
-
-.ctAppRoot .pseudoWindow.mapControlsWidget {
-    box-shadow: none;
-}
-
-.ctAppRoot .pseudoWindow.mapControlsWidget .vue-base {
-    background: transparent none;
-    box-shadow: none;
-}
-
-.mapControlsWidget .ct-mapcontrols__controlwrapper,
-.mapControlsWidget .ct-mapcontrols__tiltslider-wrapper {
-    background-color: #fff;
-}
-
-.mapControlsWidget .ct-mapcontrols__tiltslider-wrapper {
-    padding: 5px 12px;
-    border-radius: 8px;
-}
-
-.mapControlsWidget .ct-mapcontrols__northarrow{
-    position: absolute;
-    padding: 3px !important;
-    margin: 0 3px 0 auto;
-    right: -15px;
-    top: -10%;
-    transform: rotate(90deg) scale(1);
-    background-color: #fff;
-    border-radius: 50px;
-    z-index: 1;
-    border: 1px solid #000;
-}
-
-.mapControlsWidget .ct-mapcontrols__controlwrapper{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    width: 70%;
-    height: auto;
-    aspect-ratio: 1;
-    border-radius: 15px;
-    .v-btn {
-        margin: auto;
+.ctAppRoot{
+    .mapControlsWidget .vue-base{
+        padding: 12px;
     }
-}
 
-.mapControlsWidget .ct-mapcontrols__circle {
-    align-self: center;
-    position: relative;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: transparent;
-    opacity: 1;
-    border-color: #000;
-    box-shadow: 1px 1px #fff, -1px -1px #fff, -1px 1px #fff, 1px -1px #fff;
-    border-width: 2px;
-    border-style: solid;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .pseudoWindow.mapControlsWidget {
+        box-shadow: none;
+    }
 
-.mapControlsWidget .circlein {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background: transparent;
-}
+    .pseudoWindow.mapControlsWidget .vue-base {
+        background: transparent none;
+        box-shadow: none;
+    }
 
-.mapControlsWidget .picker {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height:25px;
-    margin-top: -15px !important;
-    width: 50%;
-    background-color: transparent;
-    transform-origin: center left;
-}
+    .mapControlsWidget .ct-mapcontrols__controlwrapper,
+    .mapControlsWidget .ct-mapcontrols__tiltslider-wrapper {
+        background-color: #fff;
+    }
 
-.mapControlsWidget .pickercircle {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #fff;
-    margin: 0 3px 0 auto !important;
+    .mapControlsWidget .ct-mapcontrols__tiltslider-wrapper {
+        padding: 5px 12px;
+        border-radius: 8px;
+    }
+
+    .mapControlsWidget .ct-mapcontrols__northarrow{
+        position: absolute;
+        padding: 3px !important;
+        margin: 0 3px 0 auto;
+        right: -15px;
+        top: -10%;
+        transform: rotate(90deg) scale(1);
+        background-color: #fff;
+        border-radius: 50px;
+        z-index: 1;
+        border: 1px solid #000;
+    }
+
+    .mapControlsWidget .ct-mapcontrols__controlwrapper{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 70%;
+        height: auto;
+        aspect-ratio: 1;
+        border-radius: 15px;
+        .v-btn {
+            margin: auto;
+        }
+    }
+
+    .mapControlsWidget .ct-mapcontrols__circle {
+        align-self: center;
+        position: relative;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: transparent;
+        opacity: 1;
+        border-color: #000;
+        box-shadow: 1px 1px #fff, -1px -1px #fff, -1px 1px #fff, 1px -1px #fff;
+        border-width: 2px;
+        border-style: solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mapControlsWidget .circlein {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: transparent;
+    }
+
+    .mapControlsWidget .picker {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height:25px;
+        margin-top: -15px !important;
+        width: 50%;
+        background-color: transparent;
+        transform-origin: center left;
+    }
+
+    .mapControlsWidget .pickercircle {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #fff;
+        margin: 0 3px 0 auto !important;
     cursor: move;
 }
 .mapControlsWidget .ct-mapcontrols__wrapper {
@@ -118,7 +119,7 @@
     gap: 16px;
     padding: 2px;
 }
-.mapControlsWidget .ct-mapcontrols__wrapper:hover{
+.ctAppRoot .mapControlsWidget .ct-mapcontrols__wrapper:hover{
     background-color: transparent;
     opacity: 1;
 }
@@ -151,4 +152,5 @@
 
 .mapControlsWidget .ct-mapcontrols__tiltslider-wrapper .v-slider__thumb {
     cursor: pointer;
+}
 }

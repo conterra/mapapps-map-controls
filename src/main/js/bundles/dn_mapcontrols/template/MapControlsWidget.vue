@@ -240,9 +240,6 @@
 
 
             circleMouseDown(event){
-                /* TODO: implement alternate version for Keyboard users
-                 * maybe left/right arrows while focus on north arrow
-                */
                 this.pickerCircleMouseDown(event);
                 this.longpressed = false;
                 this.pressTimer = setTimeout(() => {

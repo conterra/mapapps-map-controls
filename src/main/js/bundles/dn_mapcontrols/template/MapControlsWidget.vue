@@ -32,16 +32,21 @@
                 id="picker"
                 ref="picker"
                 class="picker"
-                :aria-label="i18n.ui.northArrow"
-                role="button"
-                tabindex="0"
                 :style="rotationStyle"
             >
                 <v-icon
                     class="ct-mapcontrols__northarrow"
                     color="#45474D"
+                    tabindex="0"
+                    role="button"
+                    :aria-label="i18n.ui.northArrow"
+                    :aria-description="i18n.ui.northArrowDescription"
+                    aria-hidden="false"
                     @mousedown="circleMouseDown"
                     @click="resetNorthArrow"
+                    @keyup.enter="resetNorthArrow"
+                    @keydown.left="rotation -= 5"
+                    @keydown.right="rotation += 5"
                 >
                     esri-icon-compass
                 </v-icon>

@@ -49,7 +49,7 @@ export class MapControlsWidgetFactory {
 
         this.initMovementControl(vm);
         this.initCameraControl();
-        this.initRotationControl();
+        this.initRotationControl(vm);
 
         this.createMapWidgetModelToVmBinding();
         this.setupRightClickHoldListener();
@@ -90,13 +90,16 @@ export class MapControlsWidgetFactory {
         }
     }
 
-    private initRotationControl(): void {
+    private initRotationControl(vm: Vue): void {
         let mapRotationController = this.mapRotationController;
         if (!mapRotationController) {
             mapRotationController = this.mapRotationController = new MapRotationController(
                 this._mapWidgetModel, this._mapControlsModel
             );
         }
+        vm.$on("rotate", (rotation: number) => {
+            this.mapRotationController?.updateViewRotation([rotation]);
+        });
     }
 
     private createMapWidgetModelToVmBinding(): void {
@@ -104,10 +107,7 @@ export class MapControlsWidgetFactory {
         const mapWidgetModel = this._mapWidgetModel;
 
         this.mapWidgetModelToVmBinding = Binding.for(mapWidgetModel, this.vm)
-            .sync("viewpoint", ["rotation"], ifDefined(({ rotation }) => rotation),
-                (values) =>
-                    this.mapRotationController?.updateViewRotation(values)
-            )
+            .syncToRight("viewpoint", ["rotation"], ifDefined(({ rotation }) => rotation))
             .sync("camera", ["tilt"], ifDefined(({ tilt }) => tilt),
                 (values, context) => this.cameraController?.putHeadingTiltIntoCamera(values, context.targetValue())
             )

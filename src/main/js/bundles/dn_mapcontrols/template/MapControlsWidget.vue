@@ -206,7 +206,7 @@
                 if(this.longpressed){
                     return;
                 }
-                this.rotation = 0;
+                this.$emit("rotate", 0);
             },
             autoRotate(){
                 this.arot = !this.arot;
@@ -214,7 +214,8 @@
             },
             _autoRotate(){
                 if(this.arot){
-                    this.rotation = this.rotation+0.2;
+                    const newRotation = this.rotation+0.2;
+                    this.$emit("rotate", newRotation);
                     //await new Promise(r => setTimeout(r, 202));
                     window.requestAnimationFrame(this._autoRotate);
                 }
@@ -256,7 +257,7 @@
                 if(!this.mousedown){
                     return;
                 }
-                this.rotation = this.rotate(event.x, event.y);
+                this.rotate(event.x, event.y);
             },
             pickerCircleMouseDown(){
                 this.mousedown = true;
@@ -296,8 +297,9 @@
                 // We must convert it to deg so...
                 // / Math.PI => [-1 +1]
                 // * 180 => [-180 +180]
-
-                return angle + 90;
+                const rotation = angle + 90;
+                this.$emit("rotate", rotation);
+                return rotation;
             }
         }
     };

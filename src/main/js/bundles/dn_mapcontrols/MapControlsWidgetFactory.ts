@@ -47,6 +47,23 @@ export class MapControlsWidgetFactory {
         const vm = this.vm = new Vue(MapControlsWidget);
         vm.i18n = this._i18n!.get();
 
+        this.initMovementControl(vm);
+        this.initCameraControl();
+        this.initRotationControl();
+
+        this.createMapWidgetModelToVmBinding();
+        this.setupRightClickHoldListener();
+    }
+
+    public createInstance(): typeof VueDijit {
+        const widget = VueDijit(this.vm);
+
+        widget.activateTool = () => {};
+        widget.deactivateTool = () => {};
+        return widget;
+    }
+
+    private initMovementControl(vm: Vue): void {
         const controller = this.mapMovementController =
             new MapMovementController(this._mapWidgetModel, this._mapControlsModel);
 
@@ -62,44 +79,37 @@ export class MapControlsWidgetFactory {
         vm.$on("downArrow", () => {
             controller.handleDownArrowClick();
         });
-
-        this.createMapWidgetModelToVmBinding();
-        this.setupRightClickHoldListener();
     }
 
-    public createInstance(): typeof VueDijit {
-        const widget = VueDijit(this.vm);
+    private initCameraControl(): void {
+        let cameraController = this.cameraController;
+        if (!cameraController) {
+            cameraController = this.cameraController = new MapCameraController(
+                this._mapWidgetModel, this._mapControlsModel
+            );
+        }
+    }
 
-        widget.activateTool = () => {};
-        widget.deactivateTool = () => {};
-        return widget;
+    private initRotationControl(): void {
+        let mapRotationController = this.mapRotationController;
+        if (!mapRotationController) {
+            mapRotationController = this.mapRotationController = new MapRotationController(
+                this._mapWidgetModel, this._mapControlsModel
+            );
+        }
     }
 
     private createMapWidgetModelToVmBinding(): void {
         if (!this.vm || !this._mapWidgetModel || !this._mapControlsModel) { return; }
         const mapWidgetModel = this._mapWidgetModel;
 
-        let mapRotationController = this.mapRotationController;
-        if (!mapRotationController) {
-            mapRotationController = this.mapRotationController = new MapRotationController(
-                mapWidgetModel, this._mapControlsModel
-            );
-        }
-
-        let cameraController = this.cameraController;
-        if (!cameraController) {
-            cameraController = this.cameraController = new MapCameraController(
-                mapWidgetModel, this._mapControlsModel
-            );
-        }
-
         this.mapWidgetModelToVmBinding = Binding.for(mapWidgetModel, this.vm)
             .sync("viewpoint", ["rotation"], ifDefined(({ rotation }) => rotation),
                 (values) =>
-                    mapRotationController.updateViewRotation(values)
+                    this.mapRotationController?.updateViewRotation(values)
             )
             .sync("camera", ["tilt"], ifDefined(({ tilt }) => tilt),
-                (values, context) => cameraController.putHeadingTiltIntoCamera(values, context.targetValue())
+                (values, context) => this.cameraController?.putHeadingTiltIntoCamera(values, context.targetValue())
             )
             .syncAll("viewmode")
             .enable()

@@ -110,7 +110,6 @@ export class MapControlsWidgetFactory {
         const mapWidgetModel = this._mapWidgetModel;
 
         this.mapWidgetModelToVmBinding = Binding.for(mapWidgetModel, this.vm)
-            .syncToRight("viewpoint", ["rotation"], ifDefined(({ rotation }) => rotation))
             .syncAll("viewmode")
             .enable()
             .syncToRightNow();
@@ -159,6 +158,9 @@ export class MapControlsWidgetFactory {
                 if (event.button === 2 && event.action === "update") {
                     if ("camera" in view && vm !== undefined) {
                         vm.tilt = view.camera?.tilt;
+                    }
+                    if("viewpoint" in view && vm !== undefined) {
+                        vm.rotation = view.viewpoint.rotation;
                     }
                 }
             });

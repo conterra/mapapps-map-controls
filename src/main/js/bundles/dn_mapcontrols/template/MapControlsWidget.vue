@@ -207,7 +207,8 @@
                 if(this.longpressed){
                     return;
                 }
-                this.$emit("rotate", 0);
+                const newRotation = this.rotation = 0;
+                this.$emit("rotate", newRotation);
             },
             autoRotate(){
                 this.arot = !this.arot;
@@ -215,7 +216,7 @@
             },
             _autoRotate(){
                 if(this.arot){
-                    const newRotation = this.rotation+0.2;
+                    const newRotation = this.rotation= this.rotation+0.2;
                     this.$emit("rotate", newRotation);
                     //await new Promise(r => setTimeout(r, 202));
                     window.requestAnimationFrame(this._autoRotate);
@@ -298,9 +299,9 @@
                 // We must convert it to deg so...
                 // / Math.PI => [-1 +1]
                 // * 180 => [-180 +180]
-                const rotation = angle + 90;
-                this.$emit("rotate", rotation);
-                return rotation;
+                const newRotation = this.rotation = angle + 90;
+                this.$emit("rotate", newRotation);
+                return newRotation;
             },
             updateCameraAngle(diff){
                 const newTilt = this.tilt = this.tilt + diff;

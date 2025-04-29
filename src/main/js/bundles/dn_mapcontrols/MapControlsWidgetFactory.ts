@@ -48,7 +48,7 @@ export class MapControlsWidgetFactory {
         vm.i18n = this._i18n!.get();
 
         this.initMovementControl(vm);
-        this.initCameraControl();
+        this.initCameraControl(vm);
         this.initRotationControl(vm);
 
         this.createMapWidgetModelToVmBinding();
@@ -81,13 +81,16 @@ export class MapControlsWidgetFactory {
         });
     }
 
-    private initCameraControl(): void {
+    private initCameraControl(vm: Vue): void {
         let cameraController = this.cameraController;
         if (!cameraController) {
             cameraController = this.cameraController = new MapCameraController(
                 this._mapWidgetModel, this._mapControlsModel
             );
         }
+        vm.$on("tilt", (tilt: number) => {
+            this.cameraController?.putHeadingTiltIntoCamera([tilt], undefined);
+        });
     }
 
     private initRotationControl(vm: Vue): void {
@@ -108,9 +111,6 @@ export class MapControlsWidgetFactory {
 
         this.mapWidgetModelToVmBinding = Binding.for(mapWidgetModel, this.vm)
             .syncToRight("viewpoint", ["rotation"], ifDefined(({ rotation }) => rotation))
-            .sync("camera", ["tilt"], ifDefined(({ tilt }) => tilt),
-                (values, context) => this.cameraController?.putHeadingTiltIntoCamera(values, context.targetValue())
-            )
             .syncAll("viewmode")
             .enable()
             .syncToRightNow();
@@ -142,6 +142,7 @@ export class MapControlsWidgetFactory {
 
     public async setupRightClickHoldListener(): Promise<void> {
         const mapControlsModel = this._mapControlsModel!;
+        const vm = this.vm;
 
         this.getView().then((view) => {
             view.on("pointer-down", (event) => {
@@ -152,6 +153,13 @@ export class MapControlsWidgetFactory {
             view.on("pointer-up", (event) => {
                 if (event.button === 2) {
                     mapControlsModel.rightClickActive = false;
+                }
+            });
+            view.on("drag", (event) => {
+                if (event.button === 2 && event.action === "update") {
+                    if ("camera" in view && vm !== undefined) {
+                        vm.tilt = view.camera?.tilt;
+                    }
                 }
             });
         });

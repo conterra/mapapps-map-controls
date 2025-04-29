@@ -125,6 +125,7 @@
                 color="#45474D"
                 class="mt-0"
                 :aria-label="i18n.ui.cameraAzimut"
+                @change="$emit('tilt', $event)"
             >
                 <template #append>
                     <v-layout style="margin-top: 5px !important">
@@ -133,7 +134,7 @@
                             small
                             role="button"
                             :aria-label="i18n.ui.decreaseCameraAngle"
-                            @click="tilt=((tilt+15))"
+                            @click="updateCameraAngle(15)"
                         >
                             icon-video
                         </v-icon>
@@ -147,7 +148,7 @@
                             small
                             role="button"
                             :aria-label="i18n.ui.increaseCameraAngle"
-                            @click="tilt=((tilt-15))"
+                            @click="updateCameraAngle(-15)"
                         >
                             icon-video
                         </v-icon>
@@ -300,6 +301,10 @@
                 const rotation = angle + 90;
                 this.$emit("rotate", rotation);
                 return rotation;
+            },
+            updateCameraAngle(diff){
+                const newTilt = this.tilt = this.tilt + diff;
+                this.$emit('tilt', newTilt);
             }
         }
     };

@@ -25,8 +25,9 @@ import { MapMovementController } from "./controllers/MapMovementController";
 
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import type { MessagesReference } from "./nls/bundle";
-import type { MapWidgetModel } from "map-widget/api";
+import type {MapWidgetModel, View} from "map-widget/api";
 import type { default as Config } from "./MapControlsWidgetModel";
+import {Handle} from "apprt-core/Types";
 
 export class MapControlsWidgetFactory {
     private vm?: Vue;
@@ -38,6 +39,8 @@ export class MapControlsWidgetFactory {
     private _i18n!: InjectedReference<MessagesReference>;
     private _mapWidgetModel!: InjectedReference<MapWidgetModel>;
     private _mapControlsModel!: InjectedReference<typeof Config>;
+
+    private _watchViewHandle: Handle;
 
     public activate(): void {
         this.initComponent();
@@ -52,7 +55,7 @@ export class MapControlsWidgetFactory {
         this.initRotationControl(vm);
 
         this.createMapWidgetModelToVmBinding();
-        this.setupRightClickHoldListener();
+        this.watchForViewChange();
     }
 
     public createInstance(): typeof VueDijit {
@@ -61,6 +64,21 @@ export class MapControlsWidgetFactory {
         widget.activateTool = () => {};
         widget.deactivateTool = () => {};
         return widget;
+    }
+
+    private watchForViewChange(): void {
+        this._watchViewHandle = this._mapWidgetModel!.watch("view", (watchEvent) => {
+            const view = watchEvent.value;
+            if (view) {
+                this.addEventListenersToView(view);
+            }
+
+            const oldView = watchEvent.old;
+            if(oldView) {
+                oldView.removeHandles();
+            }
+
+        });
     }
 
     private initMovementControl(vm: Vue): void {
@@ -137,47 +155,36 @@ export class MapControlsWidgetFactory {
         if (this.mapMovementController) {
             this.mapMovementController = undefined;
         }
+
+        if(this._watchViewHandle){
+            this._watchViewHandle.remove();
+        }
     }
 
-    public async setupRightClickHoldListener(): Promise<void> {
+    public addEventListenersToView(view: View): void {
         const mapControlsModel = this._mapControlsModel!;
         const vm = this.vm;
 
-        this.getView().then((view) => {
-            view.on("pointer-down", (event) => {
-                if (event.button === 2) {
-                    mapControlsModel.rightClickActive = true;
-                }
-            });
-            view.on("pointer-up", (event) => {
-                if (event.button === 2) {
-                    mapControlsModel.rightClickActive = false;
-                }
-            });
-            view.on("drag", (event) => {
-                if (event.button === 2 && event.action === "update") {
-                    if ("camera" in view && vm !== undefined) {
-                        vm.tilt = view.camera?.tilt;
-                    }
-                    if("viewpoint" in view && vm !== undefined) {
-                        vm.rotation = view.viewpoint.rotation;
-                    }
-                }
-            });
+        view.on("pointer-down", (event) => {
+            if (event.button === 2) {
+                mapControlsModel.rightClickActive = true;
+            }
         });
-    }
-
-    private getView(): Promise<__esri.MapView | __esri.SceneView> {
-        const mapWidgetModel = this._mapWidgetModel!;
-        return new Promise((resolve) => {
-            if (mapWidgetModel.view) {
-                resolve(mapWidgetModel.view);
-            } else {
-                const watcher = mapWidgetModel.watch("view", ({ value: view }) => {
-                    watcher.remove();
-                    resolve(view);
-                });
+        view.on("pointer-up", (event) => {
+            if (event.button === 2) {
+                mapControlsModel.rightClickActive = false;
+            }
+        });
+        view.on("drag", (event) => {
+            if (event.button === 2 && event.action === "update") {
+                if ("camera" in view && vm !== undefined) {
+                    vm.tilt = view.camera?.tilt;
+                }
+                if("viewpoint" in view && vm !== undefined) {
+                    vm.rotation = view.viewpoint.rotation;
+                }
             }
         });
     }
+
 }

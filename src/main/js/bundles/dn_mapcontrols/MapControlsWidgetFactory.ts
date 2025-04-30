@@ -165,6 +165,21 @@ export class MapControlsWidgetFactory {
         const mapControlsModel = this._mapControlsModel!;
         const vm = this.vm;
 
+        if(view.viewpoint === undefined){
+            const handle = view.watch("viewpoint", (viewpoint: {rotation: number}) => {
+                if (viewpoint.rotation !== undefined) {
+                    this.addEventListenersToView(view);
+                    handle.remove();
+                }
+            });
+            return;
+        }
+
+        if(vm){
+            vm.tilt = view.camera?.tilt;
+            vm.rotation = view?.viewpoint?.rotation;
+        }
+
         view.on("pointer-down", (event) => {
             if (event.button === 2) {
                 mapControlsModel.rightClickActive = true;

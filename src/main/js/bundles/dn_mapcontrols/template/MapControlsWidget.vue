@@ -123,7 +123,7 @@
                 color="#45474D"
                 class="mt-0"
                 :aria-label="i18n.ui.cameraAzimut"
-                @change="$emit('tilt', $event)"
+                @input="$emit('tilt', $event)"
             >
                 <template #append>
                     <v-layout style="margin-top: 5px !important">

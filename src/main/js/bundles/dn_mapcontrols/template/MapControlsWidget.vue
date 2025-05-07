@@ -18,9 +18,7 @@
 <template>
     <div
         class="ct-mapcontrols__wrapper"
-        @mouseleave="pickerCircleMouseUp"
         @focusout="pickerCircleMouseUp"
-        @mousemove="pickerCircleMouseMove"
         @mouseup="pickerCircleMouseUp"
     >
         <div
@@ -169,7 +167,7 @@
 
     export default {
         mixins: [Bindable],
-        props:{
+        props: {
             i18n: {
                 type: Object,
                 default: function () {
@@ -195,54 +193,61 @@
                 rotation: null,
                 mousedown: false,
                 arot: false,
-                tilt:null,
+                tilt: null,
                 longpressed: false,
                 viewmode: undefined
             };
         },
-        computed:{
-            rotationStyle(){
+        computed: {
+            rotationStyle() {
                 return "transform: rotate(-90deg) rotate(" + this.rotation + "deg);";
             }
         },
-        watch: {
+        watch: {},
+        mounted() {
+            document.addEventListener('mousemove', this.pickerCircleMouseMove);
+            document.addEventListener('mouseup', this.pickerCircleMouseUp);
+        },
+        destroyed() {
+            document.removeEventListener('mousemove', this.pickerCircleMouseMove);
+            document.removeEventListener('mouseup', this.pickerCircleMouseUp);
         },
         methods: {
-            resetNorthArrow(){
-                if(this.longpressed){
+            resetNorthArrow() {
+                if (this.longpressed) {
                     return;
                 }
                 const newRotation = this.rotation = 0;
                 this.$emit("rotate", newRotation);
             },
-            autoRotate(){
+            autoRotate() {
                 this.arot = !this.arot;
                 this._autoRotate();
             },
-            _autoRotate(){
-                if(this.arot){
-                    const newRotation = this.rotation= this.rotation+0.2;
+            _autoRotate() {
+                if (this.arot) {
+                    const newRotation = this.rotation = this.rotation + 0.2;
                     this.$emit("rotate", newRotation);
-                    //await new Promise(r => setTimeout(r, 202));
                     window.requestAnimationFrame(this._autoRotate);
                 }
-
             },
-            async rightArrow(){
+            async rightArrow() {
                 this.$emit("rightArrow");
             },
-            async upArrow(){
+            async upArrow() {
                 this.$emit("upArrow");
             },
-            async leftArrow(){
+            async leftArrow() {
                 this.$emit("leftArrow");
             },
-            async downArrow(){
+            async downArrow() {
                 this.$emit("downArrow");
             },
 
-
-            circleMouseDown(event){
+            circleMouseDown(event) {
+                /* TODO: implement alternate version for Keyboard users
+                 * maybe left/right arrows while focus on north arrow
+                 */
                 this.pickerCircleMouseDown(event);
                 this.longpressed = false;
                 this.pressTimer = setTimeout(() => {
@@ -250,26 +255,24 @@
                 }, 100);
 
             },
-            pickerCircleMouseUp(){
-                if(!this.mousedown){
+            pickerCircleMouseUp() {
+                if (!this.mousedown) {
                     return;
                 }
                 document.body.style.cursor = null;
                 this.mousedown = false;
             },
-            pickerCircleMouseMove(event){
-                if(!this.mousedown){
+            pickerCircleMouseMove(event) {
+                if (!this.mousedown) {
                     return;
                 }
                 this.rotate(event.x, event.y);
             },
-            pickerCircleMouseDown(){
+            pickerCircleMouseDown() {
                 this.mousedown = true;
                 document.body.style.cursor = 'move';
-                // document.addEventListener('mousemove', mousemove);
-                // document.addEventListener('mouseup', mouseup);
             },
-            getCenter(){
+            getCenter() {
                 var circle = this.$refs.circle;
                 var rect = circle.getBoundingClientRect();
                 var center = {
@@ -278,7 +281,7 @@
                 };
                 return center;
             },
-            rotate(x, y){
+            rotate(x, y) {
                 const c = this.getCenter();
 
                 var deltaX = x - c.x;
@@ -305,7 +308,7 @@
                 this.$emit("rotate", newRotation);
                 return newRotation;
             },
-            updateCameraAngle(diff){
+            updateCameraAngle(diff) {
                 const newTilt = this.tilt = this.tilt + diff;
                 this.$emit('tilt', newTilt);
             }

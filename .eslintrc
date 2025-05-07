@@ -4,6 +4,7 @@
         "vue"
     ],
     "rules": {
-        "vuejs-accessibility/click-events-have-key-events": "off"
+        "vuejs-accessibility/click-events-have-key-events": "off",
+        "vuejs-accessibility/no-static-element-interactions": "off"
     }
 }

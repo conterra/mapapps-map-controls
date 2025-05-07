@@ -25,6 +25,7 @@ export default {
             tooltip: "Kartensteuerung"
         },
         northArrow: "Nordrichtung",
+        northArrowDescription: "Kann mit den Pfeiltasten Links und Rechts verändert werden. Enter setzt die Rotation zurück.",
         moveUp: "Ansicht nach vorne verschieben",
         moveDown: "Ansicht nach hinten verschieben",
         moveLeft: "Ansicht nach links verschieben",

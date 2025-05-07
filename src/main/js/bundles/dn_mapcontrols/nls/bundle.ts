@@ -24,6 +24,7 @@ const i18n = {
                 tooltip: "Map Controls"
             },
             northArrow: "Direction of north",
+            northArrowDescription: "Can be changed with the arrow keys left and right. Enter resets the rotation.",
             moveUp: "Move view forward",
             moveDown: "Move view backward",
             moveLeft: "Move view left",

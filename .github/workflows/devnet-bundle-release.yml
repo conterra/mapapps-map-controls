@@ -22,7 +22,7 @@ jobs:
          nexus_url: ${{secrets.NEXUS_URL}}
          nexus_url_release: ${{secrets.NEXUS_URL_RELEASE}}
          nexus_url_snapshots: ${{secrets.NEXUS_URL_SNAPSHOTS}}
-         release_token: ${{secrets.RELEASE_TOKEN}}
+         release_token: ${{secrets.TECHNICAL_USER_RELEASE_TOKEN}}
          git_mail: ${{secrets.TECHNICAL_USER_MAIL}}
          git_user: ${{secrets.TECHNICAL_USER_NAME}}
          release_version: ${{ github.event.inputs.releaseVersion }}

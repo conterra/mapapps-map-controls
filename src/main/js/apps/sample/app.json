@@ -1,60 +1,105 @@
 {
+    "properties": {
+        "title": "${apptitle}"
+    },
     "load": {
         "bundleLocations": [
             "localbundles",
             "bundles"
         ],
         "allowedBundles": [
-            "system",
-            "console",
-            "notifier",
-            "splashscreen",
-            "templatelayout",
-            "template-seasons",
-            "theme-autumn",
+            "agssearch",
+            "banner",
+            "basemaptoggler",
+            "languagetoggler",
+            "locateme",
+            "locator-store",
             "map-init",
             "map-preload-2D",
-            "map-preload-3D",
-            "toolset",
-            "toolrules",
-            "banner",
             "mapnavigation",
-            "popups-default",
-            "scalebar",
-            "locateme",
+            "measurement-2d",
+            "notifier",
             "parameter-url",
+            "popups-default",
+            "printing",
+            "result-ui",
+            "scalebar",
             "search-ui",
-            "locator-store",
+            "selection-ui",
+            "sketching",
+            "splashscreen",
+            "system",
+            "template-seasons",
+            "templatelayout",
+            "theme-autumn",
             "toc",
-            "dn_mapcontrols",
-            "viewmodeswitcher"
+            "toolset",
+            "dn_imprintprivacy",
+            "dn_mapcontrols"
+        ],
+        "i18n": [
+            "bundle"
         ]
     },
     "bundles": {
+        "agssearch": {
+            "AutoStoreRegistration": {
+                "componentEnabled": true
+            }
+        },
         "banner": {
             "BannerWidget": {
                 "label": "Developer Network",
-                "image": "resource('${app}:/images/logo_conterra.png')",
-                "imageWidth": 200,
+                "image": "resource('${app}:/assets/logo.svg')",
+                "imageWidth": 150,
                 "imagePosition": "above",
-                "link": "http://developernetwork.conterra.de"
+                "link": "http://conterra.github.io"
             }
         },
-       "map-init": {
+        "basemaptoggler": {
+            "Config": {
+                "itemStyles": {
+                    "gray": "icon-thumbnail",
+                    "streets": "icon-thumbnail",
+                    "satellite": "icon-thumbnail",
+                    "hybrid": "icon-thumbnail"
+                }
+            }
+        },
+        "map-init": {
             "Config": {
                 "basemaps": [
                     {
-                        "id": "topo",
-                        "title": "Topo",
-                        "selected": true,
-                        "basemap": "topo-vector"
+                        "id": "gray",
+                        "basemap": "gray-vector",
+                        "title": "${map.basemaps.gray}",
+                        "thumbnailUrl": "resource('${app}:/assets/gray.png')",
+                        "selected": true
+                    },
+                    {
+                        "id": "streets",
+                        "basemap": "streets-vector",
+                        "title": "${map.basemaps.streets}",
+                        "thumbnailUrl": "resource('${app}:/assets/streets.png')"
+                    },
+                    {
+                        "id": "satellite",
+                        "basemap": "satellite",
+                        "title": "${map.basemaps.topo}",
+                        "thumbnailUrl": "resource('${app}:/assets/topo.png')"
+                    },
+                    {
+                        "id": "hybrid",
+                        "basemap": "hybrid",
+                        "title": "${map.basemaps.hybrid}",
+                        "thumbnailUrl": "resource('${app}:/assets/hybrid.png')"
                     }
                 ],
                 "map": {
                     "layers": [
                         {
                             "id": "buildings",
-                            "title": "${layers.buildings}",
+                            "title": "${map.lyonBuildings}",
                             "type": "AGS_SCENE",
                             "legendEnabled": false,
                             "url": "https://services2.arcgis.com/cFEFS0EWrhfDeVw9/arcgis/rest/services/STM____FR_Lyon__Textured_buildings/SceneServer"
@@ -94,6 +139,13 @@
                 "showLayerLegend": true
             }
         },
+        "toolrules": {
+            "ToolActiveStateManager": {
+                "activateOnStartToolIds": [
+                    "mapControlsToggleTool"
+                ]
+            }
+        },
         "toolset": {
             "ToolsetManager": {
                 "toolsets": [
@@ -101,10 +153,12 @@
                         "id": "mapview_tools",
                         "tools": [
                             "mapControlsToggleTool",
-                            "viewmodeSwitcherTool",
+                            "locateMeTool",
                             "zoomInTool",
                             "zoomOutTool",
-                            "restoreInitialViewTool"
+                            "compassTool",
+                            "restoreInitialViewTool",
+                            "viewmodeSwitcherTool"
                         ],
                         "registerWidget": {
                             "widgetRole": "mapview_tools"
@@ -113,17 +167,87 @@
                         "windowType": "container",
                         "cssClass": "muted",
                         "tooltipPositions": [
+                            "before",
+                            "above",
+                            "below",
+                            "after"
+                        ]
+                    },
+                    {
+                        "id": "drawer_left",
+                        "title": "${tools.drawerLeft}",
+                        "cssClass": "ct-main-app-menu",
+                        "tools": [
+                            "selection-ui-tool",
+                            "sketchToggleTool",
+                            "measuring_tools",
+                            "printingToggleTool"
+                        ],
+                        "registerWidget": {
+                            "widgetRole": "drawer_button"
+                        },
+                        "container": "ignore",
+                        "windowType": "drawer_left",
+                        "tooltipPositions": [
+                            "after",
+                            "above",
+                            "below",
                             "before"
+                        ]
+                    },
+                    {
+                        "id": "measuring_tools",
+                        "title": "${tools.measuring}",
+                        "iconClass": "icon-editor-table",
+                        "tools": [
+                            "distanceMeasurement2DToggleTool",
+                            "areaMeasurement2DToggleTool"
+                        ],
+                        "container": "ignore",
+                        "registerTool": true,
+                        "windowType": "menuitem",
+                        "tooltipPositions": [
+                            "after"
                         ]
                     }
                 ]
             }
         },
-        "toolrules": {
-            "ToolActiveStateManager": {
-                "activateOnStartToolIds": [
-                    "mapControlsToggleTool"
-                ]
+        "dn_imprintprivacy": {
+            "ToolHandler": {
+                "imprintUrls": [
+                    {
+                        "locale": "de",
+                        "url": "https://www.conterra.de/impressum"
+                    },
+                    {
+                        "locale": "en",
+                        "url": "https://www.con-terra.com/imprint"
+                    }
+                ],
+                "privacyUrls": [
+                    {
+                        "locale": "de",
+                        "url": "https://www.conterra.de/datenschutzhinweise"
+                    },
+                    {
+                        "locale": "en",
+                        "url": "https://www.con-terra.com/privacy-statements"
+                    }
+                ],
+                "toolsetDefinition": {
+                    "id": "imprintprivacyToolset",
+                    "tools": [
+                        "imprintTool",
+                        "privacyStatementsTool"
+                    ],
+                    "registerWidget": {
+                        "widgetRole": "footer_right"
+                    },
+                    "container": "ignore",
+                    "windowType": "container",
+                    "cssClass": "showToolLabels"
+                }
             }
         }
     }

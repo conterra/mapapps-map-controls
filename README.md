@@ -5,7 +5,7 @@
 The Map Controls Bundle is a widget for displaying a ui used to move around 2D and 3D maps.
 
 ## Sample app
-https://demos.conterra.de/mapapps/resources/apps/downloads_mapcontrols/index.html
+https://demos.conterra.de/mapapps/resources/apps/public_demo_mapcontrols/index.html
 
 ![Screenshot App](https://github.com/conterra/mapapps-map-controls/blob/main/screenshot.JPG)
 

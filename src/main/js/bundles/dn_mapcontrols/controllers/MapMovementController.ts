@@ -14,9 +14,9 @@
 /// limitations under the License.
 ///
 
-import * as projection from "esri/geometry/projection";
-import Point from "esri/geometry/Point";
-import SpatialReference from "esri/geometry/SpatialReference";
+import * as projection from "@arcgis/core/geometry/projection";
+import Point from "@arcgis/core/geometry/Point";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference";
 
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import type { MapWidgetModel } from "map-widget/api";

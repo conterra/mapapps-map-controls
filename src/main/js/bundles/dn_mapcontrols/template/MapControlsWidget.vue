@@ -43,8 +43,8 @@
                     @mousedown="circleMouseDown"
                     @click="resetNorthArrow"
                     @keyup.enter="resetNorthArrow"
-                    @keydown.left="rotation -= 5"
-                    @keydown.right="rotation += 5"
+                    @keydown.left="rotateBy(-5)"
+                    @keydown.right="rotateBy(5)"
                 >
                     esri-icon-compass
                 </v-icon>
@@ -242,6 +242,10 @@
             },
             async downArrow() {
                 this.$emit("downArrow");
+            },
+            rotateBy(delta) {
+                const newRotation = this.rotation = (this.rotation || 0) + delta;
+                this.$emit("rotate", newRotation);
             },
 
             circleMouseDown(event) {

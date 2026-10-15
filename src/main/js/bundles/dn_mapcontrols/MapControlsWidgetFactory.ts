@@ -22,6 +22,7 @@ import { ifDefined } from "apprt-binding/Transformers";
 import { MapCameraController } from "./controllers/MapCameraController";
 import { MapRotationController } from "./controllers/MapRotationController";
 import { MapMovementController } from "./controllers/MapMovementController";
+import { watch } from "@arcgis/core/core/reactiveUtils";
 
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import type { MessagesReference } from "./nls/bundle";
@@ -67,8 +68,8 @@ export class MapControlsWidgetFactory {
     }
 
     private watchForViewChange(): void {
-        if (this._mapControlsModel!.view) {
-            this.addEventListenersToView(this._mapControlsModel!.view);
+        if (this._mapWidgetModel!.view) {
+            this.addEventListenersToView(this._mapWidgetModel!.view);
         }
 
         this._watchViewHandle = this._mapWidgetModel!.watch("view", (watchEvent) => {
@@ -184,6 +185,16 @@ export class MapControlsWidgetFactory {
             vm.rotation = view?.viewpoint?.rotation;
         }
 
+        // keep the north arrow in sync with rotations triggered elsewhere (e.g. the compass tool)
+        view.addHandles(watch(
+            () => view.viewpoint?.rotation,
+            (rotation) => {
+                if (vm && rotation !== undefined) {
+                    vm.rotation = rotation;
+                }
+            }
+        ));
+
         view.on("pointer-down", (event) => {
             if (event.button === 2) {
                 mapControlsModel.rightClickActive = true;
@@ -198,9 +209,6 @@ export class MapControlsWidgetFactory {
             if (event.button === 2 && event.action === "update") {
                 if ("camera" in view && vm !== undefined) {
                     vm.tilt = view.camera?.tilt;
-                }
-                if("viewpoint" in view && vm !== undefined) {
-                    vm.rotation = view.viewpoint.rotation;
                 }
             }
         });

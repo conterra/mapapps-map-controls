@@ -48,6 +48,7 @@
         border-radius: 50px;
         z-index: 1;
         border: 1px solid #000;
+        touch-action: none;
 
         &:focus {
             outline: 3px solid currentColor;

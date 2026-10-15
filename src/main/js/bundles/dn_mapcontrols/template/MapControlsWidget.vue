@@ -40,11 +40,11 @@
                     :aria-label="i18n.ui.northArrow"
                     :aria-description="i18n.ui.northArrowDescription"
                     aria-hidden="false"
-                    @mousedown="circleMouseDown"
+                    @pointerdown="circleMouseDown"
                     @click="resetNorthArrow"
                     @keyup.enter="resetNorthArrow"
-                    @keydown.left="rotation -= 5"
-                    @keydown.right="rotation += 5"
+                    @keydown.left="rotateBy(-5)"
+                    @keydown.right="rotateBy(5)"
                 >
                     esri-icon-compass
                 </v-icon>
@@ -205,12 +205,14 @@
         },
         watch: {},
         mounted() {
-            document.addEventListener('mousemove', this.pickerCircleMouseMove);
-            document.addEventListener('mouseup', this.pickerCircleMouseUp);
+            document.addEventListener('pointermove', this.pickerCircleMouseMove);
+            document.addEventListener('pointerup', this.pickerCircleMouseUp);
+            document.addEventListener('pointercancel', this.pickerCircleMouseUp);
         },
         destroyed() {
-            document.removeEventListener('mousemove', this.pickerCircleMouseMove);
-            document.removeEventListener('mouseup', this.pickerCircleMouseUp);
+            document.removeEventListener('pointermove', this.pickerCircleMouseMove);
+            document.removeEventListener('pointerup', this.pickerCircleMouseUp);
+            document.removeEventListener('pointercancel', this.pickerCircleMouseUp);
         },
         methods: {
             resetNorthArrow() {
@@ -243,16 +245,15 @@
             async downArrow() {
                 this.$emit("downArrow");
             },
+            rotateBy(delta) {
+                const newRotation = this.rotation = (this.rotation || 0) + delta;
+                this.$emit("rotate", newRotation);
+            },
 
             circleMouseDown(event) {
-                /* TODO: implement alternate version for Keyboard users
-                 * maybe left/right arrows while focus on north arrow
-                 */
                 this.pickerCircleMouseDown(event);
                 this.longpressed = false;
-                this.pressTimer = setTimeout(() => {
-                    this.longpressed = true;
-                }, 100);
+                this.pressStart = { x: event.clientX, y: event.clientY};
 
             },
             pickerCircleMouseUp() {
@@ -266,6 +267,15 @@
                 if (!this.mousedown) {
                     return;
                 }
+                if (this.pressStart
+                    && Math.hypot(
+                        event.clientX - this.pressStart.x,
+                        event.clientY - this.pressStart.y
+                    ) < 5){
+                    return;
+                }
+
+                this.longpressed = true;
                 this.rotate(event.x, event.y);
             },
             pickerCircleMouseDown() {

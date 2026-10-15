@@ -67,6 +67,10 @@ export class MapControlsWidgetFactory {
     }
 
     private watchForViewChange(): void {
+        if (this._mapControlsModel!.view) {
+            this.addEventListenersToView(this._mapControlsModel!.view);
+        }
+
         this._watchViewHandle = this._mapWidgetModel!.watch("view", (watchEvent) => {
             const view = watchEvent.value;
             if (view) {

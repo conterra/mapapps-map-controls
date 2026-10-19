@@ -30,6 +30,8 @@
                 },
                 "dockTool": "mapControlsToggleTool",
                 "dockable": true,
+                "hideOnClose": true,
+                "draggable": false,
                 "windowClass": "noTitleBarAndWindowTools pseudoWindow"
             }
         }

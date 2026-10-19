@@ -118,7 +118,7 @@
             class="ct-mapcontrols__tiltslider-wrapper"
         >
             <v-slider
-                v-model="tilt"
+                :value="tilt"
                 always-dirty
                 :min="0"
                 :max="90"
@@ -128,7 +128,7 @@
                 color="#45474D"
                 class="mt-0"
                 :aria-label="i18n.ui.cameraAzimut"
-                @input="$emit('tilt', $event)"
+                @input="onTiltInput"
             >
                 <template #append>
                     <v-layout style="margin-top: 5px !important">
@@ -204,6 +204,10 @@
             }
         },
         watch: {},
+        created() {
+            // not reactive on purpose: only used to suppress slider input caused by setTiltFromView
+            this.syncingTiltFromView = false;
+        },
         mounted() {
             document.addEventListener('pointermove', this.pickerCircleMouseMove);
             document.addEventListener('pointerup', this.pickerCircleMouseUp);
@@ -321,6 +325,23 @@
             updateCameraAngle(diff) {
                 const newTilt = this.tilt = this.tilt + diff;
                 this.$emit('tilt', newTilt);
+            },
+            onTiltInput(value) {
+                // v-slider rounds a programmatically set value to its step and emits input;
+                // that must not be sent back to the view
+                if (this.syncingTiltFromView) {
+                    return;
+                }
+                this.tilt = value;
+                this.$emit('tilt', value);
+            },
+            setTiltFromView(tilt) {
+                this.syncingTiltFromView = true;
+                this.tilt = tilt;
+                // the slider reacts to the new value in the next render flush, which runs before this callback
+                this.$nextTick(() => {
+                    this.syncingTiltFromView = false;
+                });
             }
         }
     };

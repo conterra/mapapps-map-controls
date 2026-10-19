@@ -181,7 +181,7 @@ export class MapControlsWidgetFactory {
         }
 
         if(vm){
-            vm.tilt = view.camera?.tilt;
+            vm.setTiltFromView(view.camera?.tilt);
             vm.rotation = view?.viewpoint?.rotation;
         }
 
@@ -195,6 +195,18 @@ export class MapControlsWidgetFactory {
             }
         ));
 
+        // keep the tilt slider in sync with tilt changes triggered elsewhere (e.g. two-finger touch gestures)
+        if ("camera" in view) {
+            view.addHandles(watch(
+                () => view.camera?.tilt,
+                (tilt) => {
+                    if (vm && tilt !== undefined) {
+                        vm.setTiltFromView(tilt);
+                    }
+                }
+            ));
+        }
+
         view.on("pointer-down", (event) => {
             if (event.button === 2) {
                 mapControlsModel.rightClickActive = true;
@@ -203,13 +215,6 @@ export class MapControlsWidgetFactory {
         view.on("pointer-up", (event) => {
             if (event.button === 2) {
                 mapControlsModel.rightClickActive = false;
-            }
-        });
-        view.on("drag", (event) => {
-            if (event.button === 2 && event.action === "update") {
-                if ("camera" in view && vm !== undefined) {
-                    vm.tilt = view.camera?.tilt;
-                }
             }
         });
     }

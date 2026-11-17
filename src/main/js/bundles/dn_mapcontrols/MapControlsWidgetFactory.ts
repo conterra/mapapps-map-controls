@@ -22,12 +22,16 @@ import { ifDefined } from "apprt-binding/Transformers";
 import { MapCameraController } from "./controllers/MapCameraController";
 import { MapRotationController } from "./controllers/MapRotationController";
 import { MapMovementController } from "./controllers/MapMovementController";
+import { watch } from "@arcgis/core/core/reactiveUtils";
 
 import type { InjectedReference } from "apprt-core/InjectedReference";
 import type { MessagesReference } from "./nls/bundle";
 import type {MapWidgetModel, View} from "map-widget/api";
 import type { default as Config } from "./MapControlsWidgetModel";
 import {Handle} from "apprt-core/Types";
+
+// group key for all handles this widget registers on the view
+const VIEW_HANDLES_GROUP = "dn_mapcontrols-widget";
 
 export class MapControlsWidgetFactory {
     private vm?: Vue;
@@ -41,6 +45,7 @@ export class MapControlsWidgetFactory {
     private _mapControlsModel!: InjectedReference<typeof Config>;
 
     private _watchViewHandle: Handle;
+    private _view?: View;
 
     public activate(): void {
         this.initComponent();
@@ -67,6 +72,10 @@ export class MapControlsWidgetFactory {
     }
 
     private watchForViewChange(): void {
+        if (this._mapWidgetModel!.view) {
+            this.addEventListenersToView(this._mapWidgetModel!.view);
+        }
+
         this._watchViewHandle = this._mapWidgetModel!.watch("view", (watchEvent) => {
             const view = watchEvent.value;
             if (view) {
@@ -75,7 +84,7 @@ export class MapControlsWidgetFactory {
 
             const oldView = watchEvent.old;
             if(oldView) {
-                oldView.removeHandles();
+                oldView.removeHandles(VIEW_HANDLES_GROUP);
             }
 
         });
@@ -159,47 +168,68 @@ export class MapControlsWidgetFactory {
         if(this._watchViewHandle){
             this._watchViewHandle.remove();
         }
+
+        if (this._view) {
+            this._view.removeHandles(VIEW_HANDLES_GROUP);
+            this._view = undefined;
+        }
     }
 
     public addEventListenersToView(view: View): void {
         const mapControlsModel = this._mapControlsModel!;
         const vm = this.vm;
+        this._view = view;
 
         if(view.viewpoint === undefined){
             const handle = view.watch("viewpoint", (viewpoint: {rotation: number}) => {
                 if (viewpoint.rotation !== undefined) {
+                    view.removeHandles(VIEW_HANDLES_GROUP);
                     this.addEventListenersToView(view);
-                    handle.remove();
                 }
             });
+            view.addHandles(handle, VIEW_HANDLES_GROUP);
             return;
         }
 
         if(vm){
-            vm.tilt = view.camera?.tilt;
+            vm.setTiltFromView(view.camera?.tilt);
             vm.rotation = view?.viewpoint?.rotation;
         }
 
-        view.on("pointer-down", (event) => {
-            if (event.button === 2) {
-                mapControlsModel.rightClickActive = true;
-            }
-        });
-        view.on("pointer-up", (event) => {
-            if (event.button === 2) {
-                mapControlsModel.rightClickActive = false;
-            }
-        });
-        view.on("drag", (event) => {
-            if (event.button === 2 && event.action === "update") {
-                if ("camera" in view && vm !== undefined) {
-                    vm.tilt = view.camera?.tilt;
-                }
-                if("viewpoint" in view && vm !== undefined) {
-                    vm.rotation = view.viewpoint.rotation;
+        // keep the north arrow in sync with rotations triggered elsewhere (e.g. the compass tool)
+        view.addHandles(watch(
+            () => view.viewpoint?.rotation,
+            (rotation) => {
+                if (vm && rotation !== undefined) {
+                    vm.rotation = rotation;
                 }
             }
-        });
+        ), VIEW_HANDLES_GROUP);
+
+        // keep the tilt slider in sync with tilt changes triggered elsewhere (e.g. two-finger touch gestures)
+        if ("camera" in view) {
+            view.addHandles(watch(
+                () => view.camera?.tilt,
+                (tilt) => {
+                    if (vm && tilt !== undefined) {
+                        vm.setTiltFromView(tilt);
+                    }
+                }
+            ), VIEW_HANDLES_GROUP);
+        }
+
+        view.addHandles([
+            view.on("pointer-down", (event) => {
+                if (event.button === 2) {
+                    mapControlsModel.rightClickActive = true;
+                }
+            }),
+            view.on("pointer-up", (event) => {
+                if (event.button === 2) {
+                    mapControlsModel.rightClickActive = false;
+                }
+            })
+        ], VIEW_HANDLES_GROUP);
     }
 
 }
